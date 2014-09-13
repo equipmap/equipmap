@@ -6,6 +6,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    @equipments = Project.find(params[:id]).equipments
   end
 
   def new

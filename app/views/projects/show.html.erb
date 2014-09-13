@@ -1,12 +1,12 @@
 <header>
   <h1>Equipment</h1>
   <ul class="equipment-list">
-    <% 5.times do %>
+    <% @equipments.each do |equip| %>
     <li>
       <span class="color"></span>
-      <span>Cement Truck</span>
+      <span>equip.name</span>
       <span class="checkbox"><%= check_box_tag :active %>
-    </li>
+    </li>  
     <% end %>
   </ul>
 </header>
