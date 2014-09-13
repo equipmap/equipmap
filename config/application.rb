@@ -16,7 +16,7 @@ Bundler.require(*Rails.groups)
 module Equipmap
   class Application < Rails::Application
     config.mongoid.logger = Logger.new($stdout, :warn)
-    config.mongoid.persist_in_safe_mode = true
+
     config.mongoid.preload_models = false
   end
 end
