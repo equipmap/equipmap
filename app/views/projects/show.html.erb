@@ -65,7 +65,7 @@
 
     setInterval(function() {
       $.ajax({
-        url: "/equipment/5414b0e543414364ef000000.json",
+        url: "/equipment/5414ba9d766167cf62040000.json",
         success: function(equipmentData) {
           var coordinates = equipmentData.current_location.coordinates
           marker2.setLatLng(L.latLng(coordinates[0], coordinates[1]));

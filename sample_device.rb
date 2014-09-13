@@ -32,7 +32,7 @@ locations[key].each do |coordinates|
 
   if response.success?
     progress_bar.increment
-    sleep(5.0)
+    # sleep(5.0)
   else
     puts JSON.parse(response.body)
   end
