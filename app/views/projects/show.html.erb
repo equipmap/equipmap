@@ -1,9 +1,26 @@
-<p id="notice"><%= notice %></p>
+<% content_for :map do %>
+<div id='map'></div>
+<script>
+L.mapbox.accessToken = "<%= Rails.application.secrets.mapbox_token %>";
+var map = L.mapbox.map('map', 'examples.map-h67hf2ic')
+  .setView([47.6097, -122.310], 14);
 
-<p>
-  <strong>Name:</strong>
-  <%= @project.name %>
-</p>
+var marker = L.marker([-73, 40], {
+    icon: L.mapbox.marker.icon({
+      'marker-color': '#f86767'
+    })
+});
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+var t = 0;
+window.setInterval(function() {
+    // Making a lissajous curve just for fun.
+    // Create your own animated path here.
+    marker.setLatLng(L.latLng(
+        Math.cos(t * 0.5) * 50,
+        Math.sin(t) * 50));
+    t += 0.1;
+}, 50);
+
+marker.addTo(map);
+</script>
+<% end %>

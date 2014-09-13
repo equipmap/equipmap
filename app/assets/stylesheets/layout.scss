@@ -1,0 +1,45 @@
+// Apply a natural box layout model to all elements
+*, *:before, *:after {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  margin:0;
+  padding:0;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+}
+
+.sidebar {
+  width: 300px;
+  min-width: 300px;
+}
+
+.map-container {
+  border-left: 1px solid #ccc;
+  flex-grow: 1;
+
+  header {
+    height: 30px;
+    width: 100%;
+    background-color: #444;
+  }
+}
+
+#map {
+  position: absolute;
+  top: 30px;
+  bottom: 0;
+  width:100%;
+}
