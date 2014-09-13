@@ -14,7 +14,7 @@ options = { headers: { 'Content-Type' => 'application/json', 'Accept' => 'applic
 locations = YAML.load(File.read("sample_coordinates.yml"))
 
 locations["route_1"].each do |coordinates|
-  body = { equipment_id: equipment_id, location: { coordinates: coordinates } }
+  body = { location: { coordinates: coordinates, equipment_id: equipment_id } }
 
   response = HTTParty.post(
     url,
