@@ -5,6 +5,7 @@
     <li><%= fa_icon "link 1x" %></li>
     <li><%= fa_icon "user 1x" %></li>
     <li><%= fa_icon "envelope 1x" %></li>
+    <li><%= fa_icon "cogs 1x" %></li>
   </ul>
 </nav>
 <section class="content">
@@ -12,13 +13,23 @@
     Equipment
     <div class="toggle"><%= fa_icon "caret-down" %></div>
   </h1>
+  <div class="search">
+    <%= text_field_tag :search, "", class: "input-form", placeholder: "Search" %>
+    <div>
+      <%= link_to "Add new", "#", class: "btn" %>
+    </div>
+  </div>
   <ul class="equipment-list">
+    <% 5.times do %>
     <% @equipments.each do |equip| %>
     <li>
-      <span class="color"></span>
+      <div class="icon">
+      <%= image_tag "http://img.directindustry.com/images_di/photo-g/bulldozers-40827-2756811.jpg" %>
+      </div>
       <span><%= equip.name %></span>
       <span class="checkbox"><%= check_box_tag :active %>
     </li>
+    <% end %>
     <% end %>
   </ul>
 </section>
