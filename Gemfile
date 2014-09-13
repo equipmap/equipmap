@@ -11,7 +11,6 @@ gem 'pry-rails'
 gem 'rails-html-sanitizer', '~> 1.0'
 gem 'sass-rails', '~> 5.0.0.beta1'
 gem 'therubyracer', platforms: :ruby
-gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 
 group :development do
