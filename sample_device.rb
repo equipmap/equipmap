@@ -18,8 +18,7 @@ locations = YAML.load(File.read("sample_coordinates.yml"))
 
 progress_bar = ProgressBar.create(
   format: '%a |%b>>%i| %p%% %t',
-  total:  locations[key].count,
-  length: 200
+  total:  locations[key].count
 )
 
 locations[key].each do |coordinates|
