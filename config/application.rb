@@ -15,8 +15,7 @@ Bundler.require(*Rails.groups)
 
 module Equipmap
   class Application < Rails::Application
-    Mongoid.logger.level = Logger::DEBUG
-    Moped.logger.level = Logger::DEBUG
+    config.mongoid.logger = Logger.new($stdout, :warn)
 
     config.mongoid.preload_models = false
   end
