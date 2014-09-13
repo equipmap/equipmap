@@ -1,18 +1,69 @@
 .sidebar {
-  width: 300px;
-  min-width: 300px;
-  
-  header {
-    height: 30px;
-    line-height: 30px;
-    border-bottom: 1px solid #ddd;
-    padding: 0 8px;
+  width: 350px;
+  min-width: 350px;
+  display: flex;
 
-    h1 { 
-      font-size: 16px;
-      margin: 0;
+  h1 {
+    margin: 0;
+    background-color: #B4C5D0;
+    padding: 12px;
+    font-weight: normal;
+    color: #fff;
+    position: relative;
+
+    .toggle {
+      position: absolute;
+      background-color: #8EA4B1;
+      color: #fff;
+      right: 0;
+      height: 42px;
+      width: 42px;
+      top: 0;
+      text-align: center;
+      line-height: 40px;
     }
   }
+}
+
+.content {
+  flex-grow: 1;
+}
+
+.sidebar-nav {
+  min-width: 50px;
+  width: 50px;
+  background-color: #2C3742;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #B9CAD5;
+    margin-top: 18px;
+
+    > li {
+      width: 50px;
+      height: 50px;
+      line-height: 55px;
+      text-align: center;
+
+    }
+
+    i {
+      font-size: 18px;
+    }
+
+    .active {
+      background-color: #fff;
+
+      i { color: #2C3742; }
+    }
+  }
+}
+
+.search {
+  margin: 4px 0;
+  padding: 8px;
 }
 
 .equipment-list {
@@ -20,6 +71,7 @@
   padding: 0;
   list-style: none;
   position: relative;
+  color: #57728D;
 
   > li {
     padding: 5px;
@@ -35,6 +87,27 @@
     .checkbox {
       position: absolute;
       right: 8px;
+    }
+
+    &:hover {
+      background-color: lighten(#B4C5D0;
+    }
+  }
+
+  .icon {
+    background-color: #F1625E;
+    border-radius: 50%;
+    padding: 2px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+
+    img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      vertical-align: middle;
+      border: 2px solid #fff;
     }
   }
 }
