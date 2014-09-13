@@ -19,6 +19,7 @@ end
 
 group :development, :test do
   gem 'pry-byebug'
+  gem 'quiet_assets'
   gem 'rspec-rails'
   gem 'spring'
   gem 'web-console', '~> 2.0.0.beta2'
