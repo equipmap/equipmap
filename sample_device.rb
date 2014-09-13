@@ -13,7 +13,7 @@ options = { headers: { 'Content-Type' => 'application/json', 'Accept' => 'applic
 
 locations = YAML.load(File.read("sample_coordinates.yml"))
 
-locations["route_1"].each do |coordinates|
+locations["route_2"].each do |coordinates|
   body = { location: { coordinates: coordinates, equipment_id: equipment_id } }
 
   response = HTTParty.post(
@@ -22,7 +22,9 @@ locations["route_1"].each do |coordinates|
     options: options
   )
 
-  unless response.success?
+  if response.success?
+    sleep(5.0)
+  else
     binding.pry
   end
 end
