@@ -1,6 +1,17 @@
-<header>
-  <h1>Project: <%= @project.name %> </h1>
-  <h1>Equipment</h1>
+<nav class="sidebar-nav">
+  <ul>
+    <li><%= fa_icon "dashboard 1x" %></li>
+    <li class="active"><%= fa_icon "file-text-o 1x" %></li>
+    <li><%= fa_icon "link 1x" %></li>
+    <li><%= fa_icon "user 1x" %></li>
+    <li><%= fa_icon "envelope 1x" %></li>
+  </ul>
+</nav>
+<section class="content">
+  <h1>
+    Equipment
+    <div class="toggle"><%= fa_icon "caret-down" %></div>
+  </h1>
   <ul class="equipment-list">
     <% @equipments.each do |equip| %>
     <li>
@@ -10,7 +21,7 @@
     </li>
     <% end %>
   </ul>
-</header>
+</section>
 
 <% content_for :map do %>
   <div id='map'></div>

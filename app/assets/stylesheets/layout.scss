@@ -24,17 +24,11 @@ body {
 .map-container {
   border-left: 1px solid #ccc;
   flex-grow: 1;
-
-  header {
-    height: 30px;
-    width: 100%;
-    background-color: #444;
-  }
 }
 
 #map {
   position: absolute;
-  top: 30px;
+  top: 0;
   bottom: 0;
   width:100%;
 }
