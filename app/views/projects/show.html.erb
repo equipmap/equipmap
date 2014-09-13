@@ -14,12 +14,18 @@
 <% content_for :map do %>
   <div id='map'></div>
   <script>
+    "use strict";
+
     var map_data = <%= YAML::load(File.open('sample_coordinates.yml'))['route_2'] %>
 
     L.mapbox.accessToken = "<%= Rails.application.secrets.mapbox_token %>";
 
     var map = L.mapbox.map('map', 'examples.map-h67hf2ic')
       .setView([47.6794895, -122.2637558], 14);
+
+    var transformed_map_data = _.map(map_data, function(coordinates) {
+      return L.latLng(coordinates[0], coordinates[1]);
+    });
 
     var marker = L.marker([map_data[0][0], map_data[0][1]], {
       icon: L.mapbox.marker.icon({
@@ -28,26 +34,43 @@
       })
     });
 
-    var polyline = L.polyline([]).addTo(map);
+    //var polyline = L.polyline([], {color: 'red'}).addTo(map);
 
-    function drawRoute(index, data) {
+    function drawRoute(index, routeData) {
       setTimeout(function() {
-        var lat = data[index][0];
-        var lon = data[index][1];
-
-        marker.setLatLng(L.latLng(lat, lon));
-        polyline.addLatLng(L.latLng(lat, lon));
+        //marker.setLatLng(routeData[index]);
+        polyline.addLatLng(routeData[index]);
 
         index++;
 
-        if(index < data.length - 1) {
-          drawRoute(index, data);
+        if(index < routeData.length - 1) {
+          drawRoute(index, routeData);
         }
       }, 1000);
     }
 
-    drawRoute(0, map_data);
+    drawRoute(0, transformed_map_data);
 
-    marker.addTo(map);
+    //marker.addTo(map);
+
+    var marker2 = L.marker([map_data[0][0], map_data[0][1]], {
+      icon: L.mapbox.marker.icon({
+        'marker-color': '#f54143'
+      })
+    });
+    marker2.addTo(map);
+
+    var polyline2 = L.polyline([], {color: 'blue'}).addTo(map);
+
+    setInterval(function() {
+      $.ajax({
+        url: "/equipment/5414b0e543414364ef000000.json",
+        success: function(equipmentData) {
+          var coordinates = equipmentData.current_location.coordinates
+          marker2.setLatLng(L.latLng(coordinates[0], coordinates[1]));
+          polyline2.addLatLng(L.latLng(coordinates[0], coordinates[1]));
+        }
+      })
+    }, 1000);
   </script>
 <% end %>
