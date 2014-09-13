@@ -1,69 +1,77 @@
 $(document).ready(function() {
   "use strict";
   L.mapbox.accessToken = mapbox_token;
+  var map = L.mapbox.map('map', 'examples.map-h67hf2ic')
+    .setView([47.6794895, -122.2637558], 14);
 
-var map = L.mapbox.map('map', 'examples.map-h67hf2ic')
-  .setView([47.6794895, -122.2637558], 14);
+  var transformed_map_data = _.map(map_data, function(coordinates) {
+    return L.latLng(coordinates[0], coordinates[1]);
+  });
 
-var transformed_map_data = _.map(map_data, function(coordinates) {
-  return L.latLng(coordinates[0], coordinates[1]);
-});
-
-var marker = L.marker([map_data[0][0], map_data[0][1]], {
-  icon: L.mapbox.marker.icon({
-          'marker-color': '#f86767',
-    'marker-symbol': 'bus'
-        })
-});
-
-
-function drawRoute(index, routeData) {
-  setTimeout(function() {
-    //marker.setLatLng(routeData[index]);
-    polyline.addLatLng(routeData[index]);
-
-    index++;
-
-    if(index < routeData.length - 1) {
-      drawRoute(index, routeData);
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
     }
-  }, 1000);
-}
-
-drawRoute(0, transformed_map_data);
-
-//marker.addTo(map);
-
-var marker2 = L.marker([map_data[0][0], map_data[0][1]], {
-  icon: L.mapbox.marker.icon({
-          'marker-color': '#f54143'
-        })
-});
-marker2.addTo(map);
-
-var polyline2 = L.polyline([], {color: 'blue'}).addTo(map);
-
-function createPulse(data) {
-  var id = data.id.$oid;
-  setInterval(function() {
-    $.ajax({
-      url: "/equipment/"+id+".json",
-      success: function(equipmentData) {
-        var coordinates = equipmentData.current_location.coordinates
-      marker2.setLatLng(L.latLng(coordinates[0], coordinates[1]));
-    polyline2.addLatLng(L.latLng(coordinates[0], coordinates[1]));
-      }
-    })
-  }, 1000);
-};
-
-$.ajax({
-  url: "/equipment.json",
-  success: function(data) {
-    data.map(createPulse)
+    return color;
   }
+
+  var Equipment = function(args) {
+    var self = this;
+    this.uuid = args.uuid;
+    this.color = getRandomColor();
+    
+    var marker = L.marker([map_data[0][0], map_data[0][1]], {
+      icon: L.mapbox.marker.icon({
+        'marker-color': this.color,
+        'marker-symbol': 'bus'
+      })
+    });
+    var polyline = L.polyline([], { color: this.color }).addTo(map);
+
+    this.marker = args.marker || marker;
+    this.polyline = args.polyline || polyline;
+    this.createPulse = function() {
+      setInterval(function() {
+        $.ajax({
+          url: "/equipment/"+self.uuid+".json",
+          success: function(equipmentData) {
+            var coordinates = equipmentData.current_location.coordinates;
+            self.marker.setLatLng(L.latLng(coordinates[0], coordinates[1]));
+            self.polyline.addLatLng(L.latLng(coordinates[0], coordinates[1]));
+          }
+        })
+      }, 1000)
+    };
+
+    this.createPulse();
+  };
+
+  // Equipment.prototype = {
+  //   constructor: Equipment,
+  //   _init: function() {
+  //   },
+  //   createPulse: function() {
+  //     setInterval(function() {
+  //       $.ajax({
+  //         url: "/equipment/"+this.uuid+".json",
+  //         success: function(equipmentData) {
+  //           var coordinates = equipmentData.current_location.coordinates;
+  //           this.marker.setLatLng(L.latLng(coordinates[0], coordinates[1]));
+  //           this.polyline.addLatLng(L.latLng(coordinates[0], coordinates[1]));
+  //         }
+  //       })
+  //     }, 1000)
+  //   }
+  // };
+
+  $.ajax({
+    url: "/equipment.json",
+    success: function(data) {
+      for (var i = 0; i < data.length; i++) {
+        new Equipment({ uuid: data[i].id.$oid })
+      }
+    }
+  });
 });
-
-
-});
-
