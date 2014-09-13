@@ -1,12 +1,13 @@
 <header>
   <h1>Project: <%= @project.name %> </h1>
   <h1>Equipment</h1>
+  <%= link_to 'New Equipment', new_equipment_path %>
   <ul class="equipment-list">
     <% @equipments.each do |equip| %>
     <li>
       <span class="color"></span>
       <span><%= equip.name %></span>
-      <span class="checkbox"><%= check_box_tag :active %>
+      <span id="target" class="checkbox"><%= check_box_tag :active, "1", false, data: { uuid: equip.id.to_s } %>
     </li>
     <% end %>
   </ul>
@@ -62,6 +63,7 @@
 
     var polyline2 = L.polyline([], {color: 'blue'}).addTo(map);
 
+
     function createPulse(data) {
       var id = data.id.$oid;
       setInterval(function() {
@@ -83,5 +85,21 @@
       }
     });
 
+    function toggleMarker() {
+      var check_all = $(".checkbox");
+
+      check_all.click(function() {
+
+        this.hide();
+      });
+    };
+
+    $( ".checkbox" ).click(function() {
+      var $this = $(this);
+      var uuid = $this.children().attr("data-uuid");
+      alert( $this.children().attr("data-uuid") + "Handler for .click() called." );
+    });
+
   </script>
+
 <% end %>
