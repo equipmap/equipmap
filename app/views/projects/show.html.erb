@@ -4,7 +4,7 @@
     <% @equipments.each do |equip| %>
     <li>
       <span class="color"></span>
-      <span>equip.name</span>
+      <span><%= equip.name %></span>
       <span class="checkbox"><%= check_box_tag :active %>
     </li>  
     <% end %>
