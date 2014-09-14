@@ -60,7 +60,7 @@ $(document).ready(function() {
       setInterval(function() {
         if (i < self.previous_coordinates.length) {
           self.marker.setLatLng(self.previous_coordinates[i]);
-          self.polyline.addLatLng(L.latLng(self.previous_coordinates[i]));
+          self.polyline.addLatLng(self.previous_coordinates[i]);
           i++;
         }
       }, 1000);
