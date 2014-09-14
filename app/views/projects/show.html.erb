@@ -1,77 +1,43 @@
-<header>
-  <h1>Project: <%= @project.name %> </h1>
-  <h1>Equipment</h1>
+<nav class="sidebar-nav">
+  <ul>
+    <li><%= fa_icon "dashboard 1x" %></li>
+    <li class="active"><%= fa_icon "file-text-o 1x" %></li>
+    <li><%= fa_icon "link 1x" %></li>
+    <li><%= fa_icon "user 1x" %></li>
+    <li><%= fa_icon "envelope 1x" %></li>
+    <li><%= fa_icon "cogs 1x" %></li>
+  </ul>
+</nav>
+<section class="content">
+  <h1>
+    Equipment
+    <div class="toggle"><%= fa_icon "caret-down" %></div>
+  </h1>
+  <div class="search">
+    <%= text_field_tag :search, "", class: "input-form", placeholder: "Search" %>
+    <div>
+      <%= link_to "Add new", "#", class: "btn" %>
+    </div>
+  </div>
+
   <ul class="equipment-list">
     <% @equipments.each do |equip| %>
     <li>
-      <span class="color"></span>
+      <div class="icon">
+      <%= image_tag "http://img.directindustry.com/images_di/photo-g/bulldozers-40827-2756811.jpg" %>
+      </div>
       <span><%= equip.name %></span>
-      <span class="checkbox"><%= check_box_tag :active %>
+      <span id="target" class="checkbox"><%= check_box_tag :active, "1", false, data: { uuid: equip.id.to_s } %>
     </li>
     <% end %>
   </ul>
-</header>
+</section>
 
 <% content_for :map do %>
   <div id='map'></div>
   <script>
-    "use strict";
-
-    var map_data = <%= YAML::load(File.open('sample_coordinates.yml'))['route_2'] %>
-
-    L.mapbox.accessToken = "<%= Rails.application.secrets.mapbox_token %>";
-
-    var map = L.mapbox.map('map', 'examples.map-h67hf2ic')
-      .setView([47.6794895, -122.2637558], 14);
-
-    var transformed_map_data = _.map(map_data, function(coordinates) {
-      return L.latLng(coordinates[0], coordinates[1]);
-    });
-
-    var marker = L.marker([map_data[0][0], map_data[0][1]], {
-      icon: L.mapbox.marker.icon({
-        'marker-color': '#f86767',
-        'marker-symbol': 'bus'
-      })
-    });
-
-    //var polyline = L.polyline([], {color: 'red'}).addTo(map);
-
-    function drawRoute(index, routeData) {
-      setTimeout(function() {
-        //marker.setLatLng(routeData[index]);
-        polyline.addLatLng(routeData[index]);
-
-        index++;
-
-        if(index < routeData.length - 1) {
-          drawRoute(index, routeData);
-        }
-      }, 1000);
-    }
-
-    drawRoute(0, transformed_map_data);
-
-    //marker.addTo(map);
-
-    var marker2 = L.marker([map_data[0][0], map_data[0][1]], {
-      icon: L.mapbox.marker.icon({
-        'marker-color': '#f54143'
-      })
-    });
-    marker2.addTo(map);
-
-    var polyline2 = L.polyline([], {color: 'blue'}).addTo(map);
-
-    setInterval(function() {
-      $.ajax({
-        url: "/equipment/5414ba9d766167cf62040000.json",
-        success: function(equipmentData) {
-          var coordinates = equipmentData.current_location.coordinates
-          marker2.setLatLng(L.latLng(coordinates[0], coordinates[1]));
-          polyline2.addLatLng(L.latLng(coordinates[0], coordinates[1]));
-        }
-      })
-    }, 1000);
+    var map_data = <%= YAML::load(File.open('sample_coordinates.yml'))['route_2'] %>;
+    var mapbox_token = "<%= Rails.application.secrets.mapbox_token %>";
   </script>
+
 <% end %>

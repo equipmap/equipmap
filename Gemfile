@@ -4,6 +4,7 @@ gem 'rails', '4.2.0.beta1'
 
 gem 'bcrypt', '~> 3.1.7'
 gem 'coffee-rails', '~> 4.0.0'
+gem "font-awesome-rails"
 gem 'httparty'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
