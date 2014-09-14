@@ -78,8 +78,9 @@ $(document).ready(function() {
     }
 
     this.playBack();
-
-    // this.createPulse();
+    this.zoom = function() {
+      map.setView(marker.getLatLng(), 14);
+    }
   };
 
   window.EquipmentRegistry = {};
@@ -115,5 +116,11 @@ $(document).ready(function() {
     }
   });
 
+  $( ".equip-name a" ).click(function() {
+    var $this = $(this);
+    var uuid = $this.data("uuid");
+
+    EquipmentRegistry.registry[uuid].zoom();
+  });
   
 });
