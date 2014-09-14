@@ -33,7 +33,7 @@ $(document).ready(function() {
       return L.latLng(lat_lng[0], lat_lng[1]);
     });
 
-    var polyline = L.polyline(this.previous_coordinates, { color: this.color });
+    var polyline = L.polyline([], { color: this.color });
     this.marker = marker;
     this.polyline = polyline;
 
@@ -54,6 +54,19 @@ $(document).ready(function() {
       }, 1000)
     };
 
+    this.playBack = function() {
+      var i = 0;
+
+      setInterval(function() {
+        if (i < self.previous_coordinates.length) {
+          self.marker.setLatLng(self.previous_coordinates[i]);
+          self.polyline.addLatLng(L.latLng(self.previous_coordinates[i]));
+          i++;
+        }
+      }, 1000);
+
+    };
+
     this.hide = function() {
       layer.removeLayer(marker);
       layer.removeLayer(polyline);
@@ -64,7 +77,9 @@ $(document).ready(function() {
       layer.addLayer(polyline);
     }
 
-    this.createPulse();
+    this.playBack();
+
+    // this.createPulse();
   };
 
   window.EquipmentRegistry = {};
