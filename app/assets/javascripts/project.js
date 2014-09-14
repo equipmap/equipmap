@@ -27,11 +27,16 @@ $(document).ready(function() {
         'marker-color': this.color,
         'marker-symbol': 'bus'
       })
-    });
-    var polyline = L.polyline([], { color: this.color }).addTo(map);
+    }).addTo(map);
 
-    this.marker = args.marker || marker;
-    this.polyline = args.polyline || polyline;
+    this.previous_coordinates = _.map(args.previous_coordinates, function(lat_lng) {
+      return L.latLng(lat_lng[0], lat_lng[1]);
+    });
+
+    var polyline = L.polyline(this.previous_coordinates, { color: this.color }).addTo(map);
+    this.marker = marker;
+    this.polyline = polyline;
+
     this.createPulse = function() {
       setInterval(function() {
         $.ajax({
@@ -48,29 +53,14 @@ $(document).ready(function() {
     this.createPulse();
   };
 
-  // Equipment.prototype = {
-  //   constructor: Equipment,
-  //   _init: function() {
-  //   },
-  //   createPulse: function() {
-  //     setInterval(function() {
-  //       $.ajax({
-  //         url: "/equipment/"+this.uuid+".json",
-  //         success: function(equipmentData) {
-  //           var coordinates = equipmentData.current_location.coordinates;
-  //           this.marker.setLatLng(L.latLng(coordinates[0], coordinates[1]));
-  //           this.polyline.addLatLng(L.latLng(coordinates[0], coordinates[1]));
-  //         }
-  //       })
-  //     }, 1000)
-  //   }
-  // };
-
   $.ajax({
     url: "/equipment.json",
     success: function(data) {
       for (var i = 0; i < data.length; i++) {
-        new Equipment({ uuid: data[i].id.$oid })
+        new Equipment({
+          uuid: data[i].id.$oid,
+          previous_coordinates: data[i].previous_coordinates
+        })
       }
     }
   });
