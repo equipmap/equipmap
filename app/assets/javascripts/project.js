@@ -104,7 +104,7 @@ $(document).ready(function() {
     }
   });
 
-  $( ".equip_name a" ).click(function() {
+  $( ".equip-name a" ).click(function() {
     var $this = $(this);
     var uuid = $this.data("uuid");
 

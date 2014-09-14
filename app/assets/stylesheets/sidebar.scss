@@ -84,6 +84,10 @@
       margin-right: 5px;
     }
 
+    .equip-name a{
+      text-decoration: none;
+    }
+
     .checkbox {
       position: absolute;
       right: 8px;
@@ -110,4 +114,5 @@
       border: 2px solid #fff;
     }
   }
+
 }
