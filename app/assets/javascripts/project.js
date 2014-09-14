@@ -64,6 +64,10 @@ $(document).ready(function() {
       layer.addLayer(polyline);
     }
 
+    this.zoom = function() {
+      map.setView(marker.getLatLng(), 14);
+    }
+
     this.createPulse();
   };
 
@@ -100,5 +104,11 @@ $(document).ready(function() {
     }
   });
 
+  $( ".equip_name a" ).click(function() {
+    var $this = $(this);
+    var uuid = $this.data("uuid");
+
+    EquipmentRegistry.registry[uuid].zoom();
+  });
   
 });
