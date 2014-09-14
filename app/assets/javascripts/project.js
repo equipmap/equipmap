@@ -27,48 +27,78 @@ $(document).ready(function() {
         'marker-color': this.color,
         'marker-symbol': 'bus'
       })
-    }).addTo(map);
+    });
 
     this.previous_coordinates = _.map(args.previous_coordinates, function(lat_lng) {
       return L.latLng(lat_lng[0], lat_lng[1]);
     });
 
-    var polyline = L.polyline(this.previous_coordinates, { color: this.color }).addTo(map);
+    var polyline = L.polyline(this.previous_coordinates, { color: this.color });
     this.marker = marker;
     this.polyline = polyline;
+
+    var layer = L.featureGroup([marker, polyline]).addTo(map)
 
     this.createPulse = function() {
       setInterval(function() {
         $.ajax({
           url: "/equipment/"+self.uuid+".json",
           success: function(equipmentData) {
-            var coordinates = equipmentData.current_location.coordinates;
-            self.marker.setLatLng(L.latLng(coordinates[0], coordinates[1]));
-            self.polyline.addLatLng(L.latLng(coordinates[0], coordinates[1]));
+            if (equipmentData.current_location != null) {
+              var coordinates = equipmentData.current_location.coordinates;
+              self.marker.setLatLng(L.latLng(coordinates[0], coordinates[1]));
+              self.polyline.addLatLng(L.latLng(coordinates[0], coordinates[1]));
+            }
           }
         })
       }, 1000)
     };
 
+    this.hide = function() {
+      layer.removeLayer(marker);
+      layer.removeLayer(polyline);
+    }
+
+    this.show = function() {
+      layer.addLayer(marker);
+      layer.addLayer(polyline);
+    }
+
     this.createPulse();
   };
+
+  window.EquipmentRegistry = {};
+
+  window.EquipmentRegistry.registry = {};
+
+  window.EquipmentRegistry.add = function(equipment) {
+    this.registry[equipment.uuid] = equipment;
+  }
 
   $.ajax({
     url: "/equipment.json",
     success: function(data) {
       for (var i = 0; i < data.length; i++) {
-        new Equipment({
+        var equip = new Equipment({
           uuid: data[i].id.$oid,
           previous_coordinates: data[i].previous_coordinates
         })
+        EquipmentRegistry.add(equip)
       }
     }
   });
 
   
-  $( ".checkbox" ).click(function() {
+  $( ".checkbox input" ).change(function() {
     var $this = $(this);
-    var uuid = $this.children().attr("data-uuid");
-    alert( $this.children().attr("data-uuid") + "Handler for .click() called." );
+    var uuid = $this.data("uuid");
+
+    if ($this.is(':checked')) {
+      EquipmentRegistry.registry[uuid].show();
+    } else {
+      EquipmentRegistry.registry[uuid].hide();
+    }
   });
+
+  
 });
