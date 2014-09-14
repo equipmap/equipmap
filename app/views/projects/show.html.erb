@@ -37,7 +37,7 @@
 <% content_for :map do %>
   <div id='map'></div>
   <script>
-  var map_data = <%= YAML::load(File.open('sample_coordinates.yml'))['route_2'] %>;
-  var mapbox_token = "<%= Rails.application.secrets.mapbox_token %>";
+    var map_data = <%= YAML::load(File.open('sample_coordinates.yml'))['route_2'] %>;
+    var mapbox_token = "<%= Rails.application.secrets.mapbox_token %>";
   </script>
 <% end %>
