@@ -92,8 +92,8 @@ $(document).ready(function() {
     }
   });
 
-  
-  $( ".checkbox input" ).change(function() {
+  // Equipment Checkbox
+  $( "input[data-uuid]" ).change(function() {
     var $this = $(this);
     var uuid = $this.data("uuid");
 
@@ -104,11 +104,15 @@ $(document).ready(function() {
     }
   });
 
-  $( ".equip-name a" ).click(function() {
+  // Equipment Link
+  $( ".link a" ).click(function() {
     var $this = $(this);
     var uuid = $this.data("uuid");
+    var checkbox = $( "input[data-uuid="+uuid+"]" )
 
-    EquipmentRegistry.registry[uuid].zoom();
+    if (checkbox.is(':checked')) {
+      EquipmentRegistry.registry[uuid].zoom();
+    }
   });
   
 });
