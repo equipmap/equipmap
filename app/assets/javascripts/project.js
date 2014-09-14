@@ -105,7 +105,7 @@ $(document).ready(function() {
   });
 
   // Equipment Link
-  $( ".equip-name a" ).click(function() {
+  $( ".link a" ).click(function() {
     var $this = $(this);
     var uuid = $this.data("uuid");
     var checkbox = $( "input[data-uuid="+uuid+"]" )

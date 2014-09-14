@@ -26,8 +26,8 @@
       <div class="icon">
       <%= image_tag "http://img.directindustry.com/images_di/photo-g/bulldozers-40827-2756811.jpg" %>
       </div>
-      <span class="equip-name"><%= link_to equip.name, '#', data: { uuid: equip.id.to_s } %></span>
-      <span class="equip-checkbox"><%= check_box_tag :active, "1", true, data: { uuid: equip.id.to_s } %></span> 
+      <span class="link"><%= link_to equip.name, '#', data: { uuid: equip.id.to_s } %></span>
+      <span class="checkbox"><%= check_box_tag :active, "1", true, data: { uuid: equip.id.to_s } %></span> 
     </li>
     <% end %>
   </ul>
