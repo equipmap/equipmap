@@ -37,6 +37,19 @@ class LocationsController < ApplicationController
     end
   end
 
+  def android_locations
+    android_params = params.fetch(:locations).values.last
+    coordinates = [android_params[:latitude].to_f, android_params[:longitude].to_f]
+
+    location = Location.new(coordinates: coordinates, equipment: Equipment.first)
+
+    if location.save
+      render json: { success: true }, status: :ok
+    else
+      render json: { errors: location.errors }, status: :unprocessable_entity
+    end
+  end
+
   # PATCH/PUT /locations/1
   # PATCH/PUT /locations/1.json
   def update
@@ -62,13 +75,12 @@ class LocationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_location
-      @location = Location.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def location_params
-      params.require(:location).permit!
-    end
+  def set_location
+    @location = Location.find(params[:id])
+  end
+
+  def location_params
+    params.require(:location).permit(:coordinates, :equipment_id)
+  end
 end
