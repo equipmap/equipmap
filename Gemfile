@@ -17,6 +17,10 @@ gem 'sass-rails', '~> 5.0.0.beta1'
 gem 'therubyracer', platforms: :ruby
 gem 'uglifier', '>= 1.3.0'
 
+group :production do
+  gem 'rails_12factor'
+end
+
 group :development do
   gem 'annotate'
 end
