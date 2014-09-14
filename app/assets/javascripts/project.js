@@ -92,7 +92,7 @@ $(document).ready(function() {
     }
   });
 
-  // Checkbox
+  // Equipment Checkbox
   $( "input[data-uuid]" ).change(function() {
     var $this = $(this);
     var uuid = $this.data("uuid");
@@ -104,7 +104,7 @@ $(document).ready(function() {
     }
   });
 
-  // Link
+  // Equipment Link
   $( ".equip-name a" ).click(function() {
     var $this = $(this);
     var uuid = $this.data("uuid");
