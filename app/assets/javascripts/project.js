@@ -74,4 +74,11 @@ $(document).ready(function() {
       }
     }
   });
+
+  
+  $( ".checkbox" ).click(function() {
+    var $this = $(this);
+    var uuid = $this.children().attr("data-uuid");
+    alert( $this.children().attr("data-uuid") + "Handler for .click() called." );
+  });
 });
