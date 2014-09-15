@@ -247,5 +247,6 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   therubyracer
+  thor
   uglifier (>= 1.3.0)
   web-console (~> 2.0.0.beta2)

@@ -2,39 +2,47 @@
 
 require "httparty"
 require "yaml"
-require "pry"
 require "ruby-progressbar"
+require "thor"
+require "pry"
 
-host = ARGV[0]
-url = host + "/locations.json"
+class SampleDevice < Thor
+  desc "launch EQUIPMENT_ID", "Starts the sample device for pinging"
+  option :host
+  option :route
 
-equipment_id = ARGV[1]
+  def launch(host, equipment_id)
+    host = options.fetch(:host) { "http://localhost:3000" }
+    route = options.fetch(:route) { "route_2" }
+    url = host + "/locations.json"
 
-key = ARGV.fetch(2) { "route_2" }
+    http_options = { headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} }
 
-options = { headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} }
+    locations = YAML.load(File.read("sample_coordinates.yml"))
 
-locations = YAML.load(File.read("sample_coordinates.yml"))
+    progress_bar = ProgressBar.create(
+      format: '%a |%b>>%i| %p%% %t',
+      total:  locations[route].count
+    )
 
-progress_bar = ProgressBar.create(
-  format: '%a |%b>>%i| %p%% %t',
-  total:  locations[key].count
-)
+    locations[route].each do |coordinates|
+      body = { location: { coordinates: coordinates, equipment_id: equipment_id } }
 
-locations[key].each do |coordinates|
-  body = { location: { coordinates: coordinates, equipment_id: equipment_id } }
+      response = HTTParty.post(
+        url,
+        body: body,
+        options: http_options
+      )
 
-  response = HTTParty.post(
-    url,
-    body: body,
-    options: options
-  )
-
-  if response.success?
-    progress_bar.increment
-    # sleep(5.0)
-  else
-    puts JSON.parse(response.body)
+      if response.success?
+        progress_bar.increment
+        # sleep(5.0)
+      else
+        puts JSON.parse(response.body)
+      end
+    end
   end
 end
+
+SampleDevice.start(ARGV)
 

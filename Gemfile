@@ -5,7 +5,7 @@ gem 'rails', '4.2.0.beta1'
 
 gem 'bcrypt', '~> 3.1.7'
 gem 'coffee-rails', '~> 4.0.0'
-gem "font-awesome-rails"
+gem 'font-awesome-rails'
 gem 'httparty'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
@@ -15,6 +15,7 @@ gem 'rails-html-sanitizer', '~> 1.0'
 gem 'ruby-progressbar'
 gem 'sass-rails', '~> 5.0.0.beta1'
 gem 'therubyracer', platforms: :ruby
+gem 'thor'
 gem 'uglifier', '>= 1.3.0'
 
 group :production do
